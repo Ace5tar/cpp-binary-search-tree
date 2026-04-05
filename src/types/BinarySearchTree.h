@@ -32,6 +32,8 @@ class BinarySearchTree {
     // Returns a pointer to the node with the supplied data
     Node* searchNode(int data);
 
+    // Recursive algoroithm for deallocating this object
+    void deallocateRecursive(Node* node);
 };
 
 #endif
