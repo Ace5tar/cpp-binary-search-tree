@@ -1,0 +1,37 @@
+#include "Node.h"
+
+#ifndef BIN_SEARCH_TREE_H
+#define BIN_SEARCH_TREE_H
+
+class BinarySearchTree {
+  public:
+
+    // Constructor
+    BinarySearchTree(int* intList, int listSize);
+
+    // Destructor
+    ~BinarySearchTree();
+
+    // Remove an element from the tree, returns 1 if data isnt in tree
+    int remove(int data);
+
+    // Insert an element into the tree, returns 1 if an error occured
+    int insert(int data);
+
+    // Returns true if supplied element exists in the tree, false if else
+    bool search(int data);
+
+  private:
+
+    // Removes the node supplied from the tree
+    int removeNode(Node* node);
+
+    // Recursive algorithm for inserting element into the tree
+    int insertRecursive(int data, Node* node);
+
+    // Returns a pointer to the node with the supplied data
+    Node* searchNode(int data);
+
+};
+
+#endif
