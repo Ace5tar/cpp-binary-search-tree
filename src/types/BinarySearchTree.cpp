@@ -2,6 +2,9 @@
 #include "Node.h"
 
 BinarySearchTree::BinarySearchTree(int* intList, int listSize) {
+
+  head = nullptr;
+
   for (int i = 0; i < listSize; ++i) {
     insert(intList[i]);
   }
@@ -34,8 +37,9 @@ bool BinarySearchTree::search(int data) {
 int BinarySearchTree::removeNode(Node* node) {
 
   Node** parentsPtr = nullptr;
-  if (node->parent->left == node) { parentsPtr = &(node->parent->left); }
-  if (node->parent->right == node) { parentsPtr = &(node->parent->right); }
+  if (node == head) { parentsPtr = &head; }
+  if (node->parent && node->parent->left == node) { parentsPtr = &(node->parent->left); }
+  if (node->parent && node->parent->right == node) { parentsPtr = &(node->parent->right); }
 
   if (!parentsPtr) { return 1; }
 
