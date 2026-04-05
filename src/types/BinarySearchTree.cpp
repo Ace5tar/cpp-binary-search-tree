@@ -15,7 +15,7 @@ int BinarySearchTree::remove(int data) {
   Node* node = searchNode(data);
   if (!node) { return 1; }
 
-  return deleteNode(node);
+  return removeNode(node);
 }
 
 int BinarySearchTree::insert(int data) {
@@ -27,14 +27,15 @@ int BinarySearchTree::insert(int data) {
   return insertRecursive(data, head);
 }
 
-bool BinarySearchTree::~search(int data) {
+bool BinarySearchTree::search(int data) {
   return (bool)searchNode(data);
 }
 
 int BinarySearchTree::removeNode(Node* node) {
+
   Node** parentsPtr = nullptr;
-  if (node->parent->left->data == data) { parentsPtr = &(node->parent->left); }
-  if (node->parent->right ->data == data) { parentsPtr = &(node->parent->right); }
+  if (node->parent->left == node) { parentsPtr = &(node->parent->left); }
+  if (node->parent->right == node) { parentsPtr = &(node->parent->right); }
 
   if (!parentsPtr) { return 1; }
 
@@ -63,7 +64,7 @@ int BinarySearchTree::removeNode(Node* node) {
   }
 
   int dataCache = leaf->data;
-  deleteNode(leaf);
+  removeNode(leaf);
   node->data = dataCache;
   return 0;
 }
@@ -83,9 +84,9 @@ int BinarySearchTree::insertRecursive(int data, Node* node) {
   
   if (!*nextNode) {
     *nextNode = new Node(data);
-    *nextNode->parent = node;
+    (*nextNode)->parent = node;
   } else {
-    insertRecursive(*nextNode);
+    insertRecursive(data, *nextNode);
   }
 
   return 0;

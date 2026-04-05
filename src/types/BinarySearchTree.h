@@ -23,6 +23,9 @@ class BinarySearchTree {
 
   private:
 
+    // Head of the tree
+    Node* head;
+
     // Removes the node supplied from the tree
     int removeNode(Node* node);
 

@@ -10,6 +10,10 @@ struct Node {
   Node* right;
   Node* parent;
 
+  Node() {}
+
+  Node(int in_data) : data(in_data) {} 
+
 };
 
 #endif 
