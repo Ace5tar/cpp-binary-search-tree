@@ -1,4 +1,5 @@
 #include "BinarySearchTree.h"
+#include "Node.h"
 
 BinarySearchTree::BinarySearchTree(int* intList, int listSize) {
   for (int i = 0; i < listSize; ++i) {
