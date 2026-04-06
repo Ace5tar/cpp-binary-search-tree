@@ -8,17 +8,17 @@
 int initializeFromStream(BinarySearchTree*& bst, std::istream& is);
 
 // Initialize a binary search tree from a file, handles reading from file
-int initializeFromFile(BinarySearchTree*& bst, char*& inputPtr);
+int initializeFromFile(BinarySearchTree*& bst);
 
 // Initialize a binary search tree as a list of random numbers
-int initializeRandom(BinarySearchTree*& bst, char*& inputPtr);
+int initializeRandom(BinarySearchTree*& bst);
 
 // Set setInt from char*, checks if input is valid
 int intFromCstring(int& setInt, char*& cstring);
 
 int main() {
 
-  char* in = new char[64];
+  char in[64];
 
   int errorCode = 0;
 
@@ -34,7 +34,24 @@ int main() {
   BinarySearchTree* bst;
 
   if (strcmp(in, "f") == 0) {
-    // initialize from file
+
+    errorCode = initializeFromFile(bst);
+    
+    if (errorCode == 1) {
+      std::cout << "ERROR: Empty file." << std::endl;
+      return 1;
+    }
+
+    if (errorCode == 2) {
+      std::cout << "ERROR: Failed parsing token." << std::endl;
+      return 1;
+    }
+
+    if (errorCode == 3) {
+      std::cout << "ERROR: Failed opening file." << std::endl;
+      return 1;
+    }
+
   } else if (strcmp(in, "s") == 0) {
 
     std::cout << " > ";
@@ -43,13 +60,11 @@ int main() {
     
     if (errorCode == 1) {
       std::cout << "ERROR: Empty input." << std::endl;
-      delete[] in;
       return 1;
     }
 
     if (errorCode == 2) {
       std::cout << "ERROR: Failed parsing token." << std::endl;
-      delete[] in;
       return 1;
     }
 
@@ -59,14 +74,12 @@ int main() {
     bst = new BinarySearchTree(nullptr, 0);
   } else {
     std::cout << "ERROR: Unrecognized initializer." << std::endl;
-    delete[] in;
     return 1;
   }
 
 
   std::cout << *bst << std::endl;
 
-  delete[] in;
   delete bst;
 }
 
@@ -90,12 +103,40 @@ int intFromCstring(int& setInt, char*& cstring) {
 
 // Error code 1: input was empty
 // Error code 2: error converting input to int 
+// Error code 3: failed opening file
+int initializeFromFile(BinarySearchTree*& bst) {
+
+  char in[64];
+
+  int errorCode;
+
+  std::cout << "Input file name:" << std::endl;
+  std::cout << " > ";
+
+  std::cin.getline(in, 64);
+
+  std::ifstream file(in);
+
+  if (!file.is_open()) {
+    return 3;
+  }
+
+  errorCode = initializeFromStream(bst, file);
+
+  file.close();
+
+  return errorCode;
+
+}
+
+// Error code 1: input was empty
+// Error code 2: error converting input to int 
 int initializeFromStream(BinarySearchTree*& bst, std::istream& is) {
 
   int* dataArray = new int[256]{};
   int arrayIndex = 0;
   int dataTemp;
-  char* in = new char[1024];
+  char in[1024];
   int i = 1;
 
   is.getline(in, 1024);
@@ -125,8 +166,6 @@ int initializeFromStream(BinarySearchTree*& bst, std::istream& is) {
   dataArray[arrayIndex++] = dataTemp;
 
   bst = new BinarySearchTree(dataArray, arrayIndex);
-
-  delete[] in;
 
   return 0;
 
