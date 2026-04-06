@@ -1,3 +1,4 @@
+#include <iostream>
 #include "BinarySearchTree.h"
 #include "Node.h"
 
@@ -121,4 +122,25 @@ void BinarySearchTree::deallocateRecursive(Node* node) {
   deallocateRecursive(node->right);
 
   delete node;
+}
+
+std::ostream& operator<<(std::ostream& os, BinarySearchTree& tree) {
+  if (!tree.head) { os << "Tree is empty." << std::endl;}
+
+  tree.reprRecursive(os, tree.head, 0);
+
+  return os;
+}
+
+std::ostream& BinarySearchTree::reprRecursive(std::ostream& os, Node* node, int depth) {
+  if (!node) { return os; }
+
+  reprRecursive(os, node->right, depth + 1);
+
+  for (int i = 0; i < depth; ++i) { os << "  "; }
+  os << node->data << std::endl;
+
+  reprRecursive(os, node->left, depth + 1);
+
+  return os;
 }

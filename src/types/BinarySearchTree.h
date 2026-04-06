@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Node.h"
 
 #ifndef BIN_SEARCH_TREE_H
@@ -37,6 +38,12 @@ class BinarySearchTree {
 
     // Recursive algoroithm for deallocating this object
     void deallocateRecursive(Node* node);
+
+    // Overload << operator for printing
+    friend std::ostream& operator<<(std::ostream& os, BinarySearchTree& tree);
+
+    // Recursive algorithm for printing
+    std::ostream& reprRecursive(std::ostream& os, Node* node, int depth);
 };
 
 #endif
