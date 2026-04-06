@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <ctime>
 #include "types/BinarySearchTree.h"
 
 
@@ -14,7 +15,7 @@ int initializeFromFile(BinarySearchTree*& bst);
 int initializeRandom(BinarySearchTree*& bst);
 
 // Set setInt from char*, checks if input is valid
-int intFromCstring(int& setInt, char*& cstring);
+int intFromCstring(int& setInt, char* cstring);
 
 int main() {
 
@@ -31,7 +32,7 @@ int main() {
   std::cout << " > ";
   std::cin.getline(in, 64);
 
-  BinarySearchTree* bst;
+  BinarySearchTree* bst = nullptr;
 
   if (strcmp(in, "f") == 0) {
 
@@ -69,7 +70,14 @@ int main() {
     }
 
   } else if (strcmp(in, "r") == 0) {
-    // initialize from random list
+
+    errorCode = initializeRandom(bst);
+
+    if (errorCode == 1) {
+      std::cout << "ERROR: Invalid number of elements." << std::endl;
+      return 1;
+    }
+
   } else if (strcmp(in, "e") == 0) {
     bst = new BinarySearchTree(nullptr, 0);
   } else {
@@ -84,7 +92,7 @@ int main() {
 }
 
 // Error code 1: error converting to int
-int intFromCstring(int& setInt, char*& cstring) {
+int intFromCstring(int& setInt, char* cstring) {
 
   char* end;
   int temp;
@@ -169,4 +177,33 @@ int initializeFromStream(BinarySearchTree*& bst, std::istream& is) {
 
   return 0;
 
+}
+
+// Error code 1: unable to convert count to int
+int initializeRandom(BinarySearchTree*& bst) {
+  
+  char in[64];
+
+  int count;
+
+  int errorCode;
+
+  std::cout << "How many numbers to initialize with?" << std::endl;
+
+  std::cout << " > ";
+  std::cin.getline(in, 64);
+  
+  errorCode = intFromCstring(count, in);
+
+  if (errorCode) { return 1; }
+
+  int* dataArray = new int[count]{};
+
+  srand(time(0));
+
+  for (int i = 0; i < count; ++i) { dataArray[i] = rand() % 1000; }
+
+  bst = new BinarySearchTree(dataArray, count);
+
+  return 0;
 }
