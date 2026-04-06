@@ -6,6 +6,8 @@ BinarySearchTree::BinarySearchTree(int* intList, int listSize) {
 
   head = nullptr;
 
+  if (!intList) { return; }
+
   for (int i = 0; i < listSize; ++i) {
     insert(intList[i]);
   }
