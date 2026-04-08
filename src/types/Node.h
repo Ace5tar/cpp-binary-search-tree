@@ -6,9 +6,9 @@ struct Node {
 
   int data;
 
-  Node* left;
-  Node* right;
-  Node* parent;
+  Node* left = nullptr;
+  Node* right = nullptr;
+  Node* parent = nullptr;
 
   Node() {}
 
